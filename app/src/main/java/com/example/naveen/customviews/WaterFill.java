@@ -20,8 +20,9 @@ public class WaterFill extends View {
     Paint mSurfaceLinePaint = new Paint();
     Paint mWaterPaint = new Paint();
     Path mPath;
-    int y0 = 100, y1 = 50, y2 = 150;
+    int y0, y1, y2;
     int xOffset, yOffset;
+    int height, width;
     int bezierPointsCount = 6;
     int currentRun = 0;
 
@@ -52,8 +53,7 @@ public class WaterFill extends View {
     private void setupPaints() {
         mSurfaceLinePaint.setColor(waterColor);
         mSurfaceLinePaint.setAntiAlias(true);
-        mSurfaceLinePaint.setStyle(Paint.Style.STROKE);
-        mSurfaceLinePaint.setStrokeWidth(2);
+        mSurfaceLinePaint.setStyle(Paint.Style.FILL);
 
         mWaterPaint.setColor(waterColor);
         mWaterPaint.setAntiAlias(true);
@@ -61,8 +61,11 @@ public class WaterFill extends View {
     }
 
     private void setupBounds() {
-        xOffset = getWidth() / bezierPointsCount;
-        yOffset = getHeight() / 6;
+        width = getWidth();
+        height = getHeight();
+        xOffset = width / bezierPointsCount;
+        yOffset = height / 6;
+        y0 = height - 50;
     }
 
     @Override
@@ -82,17 +85,20 @@ public class WaterFill extends View {
         mPath.moveTo(0, y0);
 
         if(currentRun % 2 == 0) {
-            y1 = 50; y2 = 150;
+            y1 = y0 - 50; y2 = y0 + 50;
         } else {
-            y1 = 150; y2 = 50;
+            y1 = y0 + 50; y2 = y0 - 50;
         }
 
         mPath.cubicTo(xOffset, y1, (xOffset * 2), y2, (xOffset * 3), y0);
         mPath.moveTo((xOffset * 3), y0);
         mPath.cubicTo((xOffset * 4), y1, (xOffset * 5), y2, (xOffset * 6), y0);
         canvas.drawPath(mPath, mSurfaceLinePaint);
+        canvas.drawRect(0, y0, width, height, mSurfaceLinePaint);
         currentRun++;
-
-        postInvalidateDelayed(500);
+        if(y0 - 50 > 0) {
+            y0 -= 25;
+            postInvalidateDelayed(500);
+        }
     }
 }
