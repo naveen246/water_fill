@@ -1,4 +1,4 @@
-package com.example.naveen.waterfill;
+package com.example.waterfill.activities;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

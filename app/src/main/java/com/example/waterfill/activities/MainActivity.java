@@ -1,4 +1,4 @@
-package com.example.naveen.waterfill;
+package com.example.waterfill.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

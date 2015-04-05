@@ -1,4 +1,4 @@
-package com.example.naveen.customviews;
+package com.example.waterfill.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.naveen.waterfill.R;
+import com.example.waterfill.activities.R;
 
 /**
  * Created by naveen on 4/4/15.
