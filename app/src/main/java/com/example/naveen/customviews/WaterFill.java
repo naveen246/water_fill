@@ -17,29 +17,19 @@ import com.example.naveen.waterfill.R;
 public class WaterFill extends View {
 
     int waterColor;
-    Paint mSurfaceLinePaint = new Paint();
-    Paint mWaterPaint = new Paint();
-    Path mPath;
+    Paint paint = new Paint();
+    Path path;
     int y0, y1, y2;
-    int xOffset, yOffset;
+    int xOffset;
+    int yOffset = 25;
+    int amplitude = 50;
     int height, width;
-    int bezierPointsCount = 6;
     int currentRun = 0;
 
     public WaterFill(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         parseAttributes(context.obtainStyledAttributes(attrs, R.styleable.WaterFill));
-    }
-
-    public int getColor() {
-        return waterColor;
-    }
-
-    public void setColor(int waterColor) {
-        this.waterColor = waterColor;
-        invalidate();
-        requestLayout();
     }
 
     private void parseAttributes(TypedArray a) {
@@ -51,21 +41,16 @@ public class WaterFill extends View {
     }
 
     private void setupPaints() {
-        mSurfaceLinePaint.setColor(waterColor);
-        mSurfaceLinePaint.setAntiAlias(true);
-        mSurfaceLinePaint.setStyle(Paint.Style.FILL);
-
-        mWaterPaint.setColor(waterColor);
-        mWaterPaint.setAntiAlias(true);
-        mWaterPaint.setStyle(Paint.Style.FILL);
+        paint.setColor(waterColor);
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.FILL);
     }
 
     private void setupBounds() {
         width = getWidth();
         height = getHeight();
-        xOffset = width / bezierPointsCount;
-        yOffset = height / 6;
-        y0 = height - 50;
+        xOffset = width / 6;
+        y0 = height - amplitude;
     }
 
     @Override
@@ -81,23 +66,23 @@ public class WaterFill extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mPath = new Path();
-        mPath.moveTo(0, y0);
+        path = new Path();
+        path.moveTo(0, y0);
 
         if(currentRun % 2 == 0) {
-            y1 = y0 - 50; y2 = y0 + 50;
+            y1 = y0 - amplitude; y2 = y0 + amplitude;
         } else {
-            y1 = y0 + 50; y2 = y0 - 50;
+            y1 = y0 + amplitude; y2 = y0 - amplitude;
         }
 
-        mPath.cubicTo(xOffset, y1, (xOffset * 2), y2, (xOffset * 3), y0);
-        mPath.moveTo((xOffset * 3), y0);
-        mPath.cubicTo((xOffset * 4), y1, (xOffset * 5), y2, (xOffset * 6), y0);
-        canvas.drawPath(mPath, mSurfaceLinePaint);
-        canvas.drawRect(0, y0, width, height, mSurfaceLinePaint);
+        path.cubicTo(xOffset, y1, (xOffset * 2), y2, (xOffset * 3), y0);
+        path.moveTo((xOffset * 3), y0);
+        path.cubicTo((xOffset * 4), y1, (xOffset * 5), y2, (xOffset * 6), y0);
+        canvas.drawPath(path, paint);
+        canvas.drawRect(0, y0, width, height, paint);
         currentRun++;
-        if(y0 - 50 > 0) {
-            y0 -= 25;
+        if(y0 - amplitude > 0) {
+            y0 -= yOffset;
             postInvalidateDelayed(500);
         }
     }

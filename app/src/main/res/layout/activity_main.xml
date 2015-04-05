@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_alignParentBottom="true"
-        android:alpha="0.5"
+        android:alpha="0.2"
         WaterFill:waterColor="@color/material_blue_grey_800" />
 
 </RelativeLayout>
